@@ -1,3 +1,4 @@
+
 services:
   app:
     container_name: article-gin-dev
@@ -9,10 +10,28 @@ services:
     volumes:
       - .:/app
       - /app/tmp
-    environment:
-      - GO_ENV=development
+    env_file:
+      - .env
+    depends_on:
+      - mongo
     networks:
-      - gateway_dev-net 
+      - gateway_dev-net
+
+  mongo:
+    container_name: article-mongo
+    image: mongo:7
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    env_file:
+      - .env
+    networks:
+      - gateway_dev-net
+
+volumes:
+  mongo_data:
 
 networks:
   gateway_dev-net:
