@@ -1,0 +1,19 @@
+services:
+  app:
+    container_name: article-gin-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    volumes:
+      - .:/app
+      - /app/tmp
+    environment:
+      - GO_ENV=development
+    networks:
+      - gateway_dev-net 
+
+networks:
+  gateway_dev-net:
+    external: true
