@@ -1,0 +1,27 @@
+services:
+  app:
+    container_name: article-gin-test
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    env_file:
+      - .env.test
+    depends_on:
+      - mongo
+    networks:
+      - test-net
+
+  mongo:
+    container_name: article-mongo-test
+    image: mongo:7
+    restart: always
+    volumes:
+      - /data/db
+    env_file:
+      - .env.test
+    networks:
+      - test-net
+
+networks:
+  test-net:
+    driver: bridge

@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+FROM golang:1.25-alpine
+
+# Install dependencies
+RUN apk add --no-cache git curl
+
+WORKDIR /app
+
+# Copy go mod files for dependency caching
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the rest of the project
+COPY . .
+
+# Run Go tests
+CMD ["go", "test", "./...", "-v"]
